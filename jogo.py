@@ -30,4 +30,5 @@ def game():
                 print("Jogador", jogador, "venceu!")
                 return
 
+print('push')
 game()
