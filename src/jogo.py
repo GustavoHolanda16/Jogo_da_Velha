@@ -8,7 +8,12 @@ def tabuleiro():
     print(f" {tabu[3]} | {tabu[4]} | {tabu[5]} ")
     print("---+---+---")
     print(f" {tabu[6]} | {tabu[7]} | {tabu[8]} ")
-
+def vazio():
+    for i in range(9):
+        if tabu[i]==' ':
+            True
+        else:
+            print('tente de novo!')
 def make_move(jogador):
     if jogador == 'X':
         move = int(input("Vez do jogador X, escolha uma posição (0-8): "))
@@ -54,6 +59,7 @@ def game():
         for jogador in ["X", "O"]:
             make_move(jogador)
             tabuleiro()
+            vazio()
             if check_win(jogador):
                 print("Jogador", jogador, "venceu!")
                 return 
