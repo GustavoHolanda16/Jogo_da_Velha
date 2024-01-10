@@ -1,7 +1,7 @@
 import random
 
 tabu = [' ' for _ in range(9)]
-
+print('boa noite')
 def tabuleiro():
     print(f" {tabu[0]} | {tabu[1]} | {tabu[2]} ")
     print("---+---+---")
