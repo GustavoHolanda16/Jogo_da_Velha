@@ -1,20 +1,27 @@
 import random
+import os
 
 tabu = [' ' for _ in range(9)]
-print('boa noite')
+print('Boa noite')
+
 def tabuleiro():
     print(f" {tabu[0]} | {tabu[1]} | {tabu[2]} ")
     print("---+---+---")
     print(f" {tabu[3]} | {tabu[4]} | {tabu[5]} ")
     print("---+---+---")
     print(f" {tabu[6]} | {tabu[7]} | {tabu[8]} ")
+
+def limpar_tela():
+    os.system('clear' if os.name == 'posix' else 'cls')
+
 def vazio():
     for i in range(9):
-        if tabu[i]==' ':
-            True
-        else:
-            print('tente de novo!')
-def make_move(jogador):
+        if tabu[i] == ' ':
+            return True
+    print('O tabuleiro está cheio. O jogo empatou!')
+    return False
+
+def test_fazer_jogada(jogador):
     if jogador == 'X':
         move = int(input("Vez do jogador X, escolha uma posição (0-8): "))
     else:
@@ -24,18 +31,17 @@ def make_move(jogador):
 def make_move_computador():
     print("Vez do jogador O (computador):")
 
-    
     for i in range(9):
         if tabu[i] == ' ':
             tabu[i] = 'O'
-            if check_win('O'):
+            if verificar_vitoria('O'):
                 return
             tabu[i] = ' '
 
     for i in range(9):
         if tabu[i] == ' ':
             tabu[i] = 'X'
-            if check_win('X'):
+            if verificar_vitoria('X'):
                 tabu[i] = 'O'
                 return
             tabu[i] = ' '
@@ -43,57 +49,70 @@ def make_move_computador():
     move = random.choice([i for i, val in enumerate(tabu) if val == ' '])
     tabu[move] = 'O'
 
-def check_win(jogador):
+def verificar_vitoria(jogador):
     vitoria = [(0,1,2), (3,4,5), (6,7,8), (0,3,6), (1,4,7), (2,5,8), (0,4,8), (2,4,6)]
     for cond in vitoria:
         if tabu[cond[0]] == tabu[cond[1]] == tabu[cond[2]] == jogador:
             return True
     return False
+
 def check_empate():
     return ' ' not in tabu
+
 def game():
-
-    tabuleiro()
-
     while True:
-        for jogador in ["X", "O"]:
-            make_move(jogador)
-            tabuleiro()
-            vazio()
-            if check_win(jogador):
-                print("Jogador", jogador, "venceu!")
-                return 
-
-def gameCom():
-    tabuleiro()
-
-    while True:
-        make_move('X')
+        limpar_tela()
         tabuleiro()
-        if check_win('X'):
+        test_fazer_jogada('X')
+        if verificar_vitoria('X'):
+            tabuleiro()
             print("Jogador X venceu!")
             return
-        if check_empate():
-            print("O jogo empatou!")
+        if not vazio():
             return
-
-        make_move_computador()
+        limpar_tela()
         tabuleiro()
-        if check_win('O'):
-            print("Jogador O (computador) venceu!")
-            return 
-        if check_empate():
-            print("O jogo empatou!")
+        test_fazer_jogada('O')
+        if verificar_vitoria('O'):
+            tabuleiro()
+            print("Jogador O venceu!")
+            return
+        if not vazio():
             return
 
-print('Escolha uma das opções...')
-print('1 -- Para Jogar contra outro jogador')
-print('2 -- Para Jogar contra o PC')
-print('3 -- Para ver Ranking')
-print('4 -- Para sair')
-x = input(': ')
+def gameCom():
+    while True:
+        limpar_tela()
+        tabuleiro()
+        test_fazer_jogada('X')
+        if verificar_vitoria('X'):
+            tabuleiro()
+            print("Jogador X venceu!")
+            return
+        if not vazio():
+            return
+        limpar_tela()
+        tabuleiro()
+        make_move_computador()
+        if verificar_vitoria('O'):
+            tabuleiro()
+            print("Jogador O (computador) venceu!")
+            return
+        if not vazio():
+            return
 
-if x == '1':
-    game()
-elif x == '2':
-    gameCom()
+def menu_principal():
+    print('Escolha uma das opções...')
+    print('1 -- Para Jogar contra outro jogador')
+    print('2 -- Para Jogar contra o PC')
+    print('3 -- Para ver Ranking')
+    print('4 -- Para sair')
+    x = input(': ')
+
+    if x == '1':
+        game()
+    elif x == '2':
+        gameCom()
+
+
+menu_principal()
