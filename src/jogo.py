@@ -28,7 +28,7 @@ def test_fazer_jogada(jogador):
         move = int(input("Vez do jogador O, escolha uma posição (0-8): "))
     tabu[move] = jogador
 
-def make_move_computador():
+def jogada_computador():
     print("Vez do jogador O (computador):")
 
     for i in range(9):
@@ -93,7 +93,7 @@ def gameCom():
             return
         limpar_tela()
         tabuleiro()
-        make_move_computador()
+        jogada_computador()
         if verificar_vitoria('O'):
             tabuleiro()
             print("Jogador O (computador) venceu!")
