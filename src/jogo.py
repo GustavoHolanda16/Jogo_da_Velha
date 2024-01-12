@@ -2,8 +2,14 @@ import random
 import os
 
 tabu = [' ' for _ in range(9)]
-print('Boa noite')
+ranking = []
 
+class MeuObjeto:
+    def __init__(self, nome, vitorias, derrotas, empates):
+        self.nome = nome
+        self.vitorias = vitorias
+        self.derrotas = derrotas
+        self.empates = empates
 def tabuleiro():
     print(f" {tabu[0]} | {tabu[1]} | {tabu[2]} ")
     print("---+---+---")
@@ -15,18 +21,19 @@ def limpar_tela():
     os.system('clear' if os.name == 'posix' else 'cls')
 
 def vazio():
-    for i in range(9):
-        if tabu[i] == ' ':
-            return True
-    print('O tabuleiro está cheio. O jogo empatou!')
+    if ' ' in tabu:
+        return True
+    print('O jogo empatou!')
     return False
 
 def test_fazer_jogada(jogador):
-    if jogador == 'X':
-        move = int(input("Vez do jogador X, escolha uma posição (0-8): "))
-    else:
-        move = int(input("Vez do jogador O, escolha uma posição (0-8): "))
-    tabu[move] = jogador
+    while True:
+        move = int(input(f"Vez do jogador {jogador}, escolha uma posição (0-8): "))
+        if 0 <= move <= 8 and tabu[move] == ' ':
+            tabu[move] = jogador
+            break
+        else:
+            print("Posição inválida ou já preenchida. Tente novamente.")
 
 def jogada_computador():
     print("Vez do jogador O (computador):")
@@ -95,6 +102,7 @@ def gameCom():
         tabuleiro()
         jogada_computador()
         if verificar_vitoria('O'):
+            limpar_tela()
             tabuleiro()
             print("Jogador O (computador) venceu!")
             return
@@ -114,5 +122,12 @@ def menu_principal():
     elif x == '2':
         gameCom()
 
-
 menu_principal()
+
+
+
+
+
+
+
+
